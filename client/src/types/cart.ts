@@ -4,8 +4,3 @@ export interface CartItem {
   price?: number | undefined;
   quantity: number;
 }
-
-export interface Cart {
-  items: CartItem[];
-  total: number;
-}

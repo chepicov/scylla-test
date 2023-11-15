@@ -12,7 +12,7 @@ const Cart: React.FC = () => {
     <Box className='cart'>
       <Grid container spacing={2} className='cart__list'>
         {cartItems.map((item) => (
-          <Grid item key={item.id} width={'100%'}>
+          <Grid item key={item.id} className='cart__item'>
             <CartItemComponent item={item} removeFromCart={removeFromCart} onUpdateQuantity={updateQuantity} />
           </Grid>
         ))}

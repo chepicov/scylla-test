@@ -33,13 +33,7 @@
   line-height: 1.2;
 }
 
-.book__page.MuiTypography-root {
-  font-size: 16px;
-  font-weight: 500;
-  margin-top: 8px;
-}
-
-.book__price.MuiTypography-root {
+.book__property.MuiTypography-root {
   font-size: 16px;
   font-weight: 500;
   margin-top: 8px;

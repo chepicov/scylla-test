@@ -32,6 +32,19 @@ export const CartContextProvider: React.FC<Props> = ({ children }) => {
   const [isCartVisible, setIsCartVisible] = React.useState<boolean>(false);
   const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
 
+  React.useEffect(() => {
+    const items = localStorage.getItem('cartItems');
+    if (items) {
+      const parsedItems = JSON.parse(items);
+      setCartItems(parsedItems);
+      setIsCartVisible(parsedItems.length > 0);
+    }
+  }, []);
+
+  const updateStorage = React.useCallback((items: CartItem[]) => {
+    localStorage.setItem('cartItems', JSON.stringify(items));
+  }, []);
+
   const toggleCartVisibility = () => {
     setIsCartVisible(!isCartVisible);
   }
@@ -51,23 +64,29 @@ export const CartContextProvider: React.FC<Props> = ({ children }) => {
       setIsCartVisible(true);
     }
     const newItem = { id: book.id, quantity: 1, title: book.title, price: book.price };
-    setCartItems((prev) => [...prev, newItem]);
+    const newCartItems = [...cartItems, newItem];
+    setCartItems(newCartItems);
+    updateStorage(newCartItems);
   }
 
   const removeFromCart = (id: string) => {
     if (cartItems.length === 1) {
       setIsCartVisible(false);
     }
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    const newCartItems = cartItems.filter((item) => item.id !== id);
+    setCartItems(newCartItems);
+    updateStorage(newCartItems);
   }
 
   const updateQuantity = (id: string, quantity: number) => {
-    setCartItems((prev) => prev.map((item) => {
+    const newCartItems = cartItems.map((item) => {
       if (item.id === id) {
         return { ...item, quantity };
       }
       return item;
-    }));
+    });
+    setCartItems(newCartItems);
+    updateStorage(newCartItems);
   }
 
   return (

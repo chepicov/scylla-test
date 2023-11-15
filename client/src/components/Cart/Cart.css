@@ -10,6 +10,10 @@
   padding-bottom: 16px;
 }
 
+.cart__item {
+  width: 100%;
+}
+
 .cart__total.MuiTypography-root {
   font-size: 16px;
   font-weight: 500;

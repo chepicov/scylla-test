@@ -22,11 +22,14 @@ const BookComponent: React.FC<Props> = ({ book, onAdd, isDisabled }) => {
           <Box className='book__info'>
             <Typography className='book__title'>{book.title}</Typography>
             <Typography className='book__description'>{book.description}</Typography>
+            {(book.olVersion) && (book.olVersion > 1) && (
+              <Typography className='book__property'>OL revision: {book.olVersion}</Typography>
+            )}
             {!!book.pageNumber && (
-              <Typography className='book__page'>Pages: {book.pageNumber}</Typography>
+              <Typography className='book__property'>Pages: {book.pageNumber}</Typography>
             )}
             {!!book.price && (
-              <Typography className='book__price'>Price: {formatCurrency(book.price)}</Typography>
+              <Typography className='book__property'>Price: {formatCurrency(book.price)}</Typography>
             )}
             <Button className='book_button' variant='contained' disabled={isDisabled} onClick={onAdd}>Add to Cart</Button>
           </Box>
