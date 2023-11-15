@@ -6,20 +6,18 @@ import { BookContext, BookContextType } from 'contexts/book.context';
 import './Filter.css';
 
 const Filter: React.FC = () => {
-  const { fetchBooks } = React.useContext<BookContextType>(BookContext);
-  const [query, setQuery] = React.useState<string>('nosql');
+  const { updateFilter } = React.useContext<BookContextType>(BookContext);
+  const [query, setQuery] = React.useState<string>('');
 
-  const debouncedFetch = React.useCallback(
-    _debounce((value: string) => fetchBooks(value), 500),
-    [],
+  const debouncedUpdate = React.useMemo(() =>
+    _debounce((value: string) => updateFilter({ query: value }), 500),
+    [updateFilter],
   );
 
-  React.useEffect(() => {
-    debouncedFetch(query);
-  }, [query]);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    const newValue = event.target.value;
+    setQuery(newValue);
+    debouncedUpdate(newValue);
   }
 
   return (

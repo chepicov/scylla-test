@@ -3,13 +3,13 @@ import { Book } from '../types/book';
 
 export type BookContextType = {
   books: Book[];
-  fetchBooks: (query?: string) => void;
+  updateFilter: (filter: { query: string }) => void;
   isLoading: boolean;
 }
 
 const initialContext: BookContextType = {
   books: [],
-  fetchBooks: () => {},
+  updateFilter: () => {},
   isLoading: true,
 }
 
@@ -19,14 +19,19 @@ type Props = {
   children: React.ReactNode;
 }
 
+interface Filter {
+  query: string;
+}
+
 export const BookContextProvider: React.FC<Props> = ({ children }) => {
+  const [filter, setFilter] = React.useState<Filter>({ query: 'nosql' })
   const [books, setBooks] = React.useState<Book[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
-  const fetchBooks = async (query = 'nosql') => {
+  const fetchBooks = React.useCallback(async ({ query }: Filter) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:3001/books?query=${query}`);
+      const response = await fetch(`${process.env['REACT_APP_API_URL']}/books?query=${query}`);
       if (!response.ok) {
         throw Error(response.statusText);
       }
@@ -37,14 +42,18 @@ export const BookContextProvider: React.FC<Props> = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
+  }, []);
+
+  const updateFilter = (newFilter: Partial<Filter>) => {
+    setFilter({ ...filter, ...newFilter });
   }
 
   React.useEffect(() => {
-    fetchBooks();
-  }, []);
+    fetchBooks(filter);
+  }, [filter, fetchBooks]);
 
   return (
-    <BookContext.Provider value={{ books, fetchBooks, isLoading }}>
+    <BookContext.Provider value={{ books, updateFilter, isLoading }}>
       {children}
     </BookContext.Provider>
   );

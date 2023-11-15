@@ -30,7 +30,7 @@ export class BooksService {
       );
       return result;
     } catch (error) {
-      console.log(error);
+      console.log('Error in BooksService.findAll:', error.message);
       return [];
     }
   }
@@ -44,7 +44,6 @@ export class BooksService {
       const olVersion = details?.latest_revision;
       return olVersion;
     } catch (error) {
-      console.log(error);
       return undefined;
     }
   }
