@@ -1,28 +1,25 @@
 import React from "react";
-import { Box, Button, Grid, Input, Typography } from "@mui/material";
+import { Box, Card, Grid, Typography } from "@mui/material";
 import { CartContextType, CartContext } from "contexts/cart.context";
+import { formatCurrency } from "utils/currency";
+import CartItemComponent from "./components/CartItem";
+import "./Cart.css";
 
 const Cart: React.FC = () => {
-  const { cartItems, total, removeFromCart } = React.useContext<CartContextType>(CartContext);
+  const { cartItems, total, removeFromCart, updateQuantity } = React.useContext<CartContextType>(CartContext);
 
   return (
-    <Box>
-      <Grid container>
+    <Box className='cart'>
+      <Grid container spacing={2} className='cart__list'>
         {cartItems.map((item) => (
-          <Grid item key={item.id}>
-            <Box>
-              <Button variant='contained' onClick={() => removeFromCart(item.id)}>Remove</Button>
-              <Typography variant='h4'>{item.title}</Typography>
-              <Input type='number' value={item.quantity} />
-              <Typography variant='h6'>{item.price}</Typography>
-              <Button variant='contained'>Update quantity</Button>
-            </Box>
+          <Grid item key={item.id} width={'100%'}>
+            <CartItemComponent item={item} removeFromCart={removeFromCart} onUpdateQuantity={updateQuantity} />
           </Grid>
         ))}
       </Grid>
-      <Box>
-        <Typography variant='h4'>Total Price: ${total}</Typography>
-      </Box>
+      <Card>
+        <Typography className='cart__total'>Total Price: {formatCurrency(total)}</Typography>
+      </Card>
     </Box>
   );
 };

@@ -1,32 +1,23 @@
 import React from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { BookContext, BookContextType } from 'contexts/book.context';
-import placeholder from 'assets/placeholder.png';
 import { CartContext, CartContextType } from 'contexts/cart.context';
+import Book from './components/Book';
 import './Books.css';
 
 const Books: React.FC = () => {
   const { books } = React.useContext<BookContextType>(BookContext);
-  const { addToCart } = React.useContext<CartContextType>(CartContext);
+  const { addToCart, cartItems } = React.useContext<CartContextType>(CartContext);
+
+  const isDisabled = React.useCallback((id: string) => {
+    return cartItems.some((item) => item.id === id);
+  }, [cartItems]);
 
   return (
-    <Grid container className='list'>
+    <Grid container className='list' spacing={2}>
       {books.map((book) => (
         <Grid item key={book.id} className='list__item'>
-          <Grid container className='item'>
-            <Grid item xs={4}>
-              <img className='item__image' src={book.thumbnail || placeholder} alt={book.title} />
-            </Grid>
-            <Grid item xs={8}>
-              <Box>
-                <Typography variant='h4'>{book.title}</Typography>
-                <Typography variant='body1'>{book.description}</Typography>
-                {!!book.pageNumber && (<Typography variant='body1'>Pages: {book.pageNumber}</Typography>)}
-                {!!book.price && (<Typography variant='body1'>Price: {book.price}</Typography>)}
-                <Button variant='contained' onClick={() => addToCart(book)}>Add to Cart</Button>
-              </Box>
-            </Grid>
-          </Grid>
+          <Book book={book} onAdd={() => addToCart(book)} isDisabled={isDisabled(book.id)} />
         </Grid>
       ))}
     </Grid>

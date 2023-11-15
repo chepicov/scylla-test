@@ -1,0 +1,34 @@
+.cartItem {
+  padding: 16px;
+}
+
+.cartItem__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cartItem__price.MuiTypography-root {
+  margin-bottom: 8px;
+}
+
+.cartItem__close.MuiButtonBase-root {
+  margin-top: -8px;
+  margin-right: -8px;
+}
+
+.cartItem__title.MuiTypography-root {
+  font-size: 16px;
+  font-weight: 700;
+  padding-right: 16px;
+}
+
+.cartItem__error.MuiTypography-root {
+  color: red;
+  font-size: 14px;
+}
+
+.cartItem__input {
+  width: 50px;
+  margin-right: 16px;
+}

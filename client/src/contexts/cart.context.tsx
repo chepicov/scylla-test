@@ -47,11 +47,17 @@ export const CartContextProvider: React.FC<Props> = ({ children }) => {
     if (cartItems.findIndex((item) => item.id === book.id) !== -1) {
       return;
     }
+    if (cartItems.length === 0) {
+      setIsCartVisible(true);
+    }
     const newItem = { id: book.id, quantity: 1, title: book.title, price: book.price };
     setCartItems((prev) => [...prev, newItem]);
   }
 
   const removeFromCart = (id: string) => {
+    if (cartItems.length === 1) {
+      setIsCartVisible(false);
+    }
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   }
 
