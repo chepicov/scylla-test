@@ -1,4 +1,22 @@
-# Process
+# How to run
+
+## Backend
+
+```bash
+$ cd api
+$ npm install
+$ npm run start:dev
+```
+
+## Frontend
+
+```bash
+$ cd client
+$ npm install
+$ npm start
+```
+
+# Process of development
 
 ## Preparations
 First of all we need to determine the structure of services.
